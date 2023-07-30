@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CoreController } from './core.controller';
 import { PrismaModule } from '../prisma-dataservice/prisma.module';
 import { CoreService } from './core.service';
-import { AtStrategy } from 'src/auth/strategies';
+import { AtStrategy } from '../auth/strategies';
 
 @Module({
   imports: [PrismaModule],

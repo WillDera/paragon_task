@@ -1,15 +1,10 @@
 import {
   IsEthereumAddress,
-  IsNotEmpty,
-  IsNumber,
-  Min,
-  Max,
   IsInt,
-  IsString,
   IsNumberString,
   Matches,
 } from 'class-validator';
-import { IsWhitelistedContract } from 'src/common/decorator/whitelisted-contracts.decorator';
+import { IsWhitelistedContract } from '../../common/decorator/whitelisted-contracts.decorator';
 
 export class NFTEnquiryDTO {
   @IsEthereumAddress()

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { NFTEnquiryDTO, NFTTokens } from 'src/auth/dto';
+import { NFTEnquiryDTO, NFTTokens } from '../auth/dto';
 import {
   AverageOwnershipDuration,
   AveragePrice,
@@ -8,7 +8,7 @@ import {
   PriceHistory,
   TokenIds,
 } from 'src/types';
-import { SuccessResponse } from 'src/common/responses.helpers';
+import { SuccessResponse } from '../common/responses.helpers';
 import { PrismaService } from '../prisma-dataservice/prisma.service';
 import { NFTService } from '../prisma-dataservice/service/nft.service';
 

@@ -1,5 +1,5 @@
 import { IsNotEmpty, MinLength, IsStrongPassword } from 'class-validator';
-import { IsUserAlreadyExist } from 'src/common/decorator';
+import { IsUserAlreadyExist } from '../../common/decorator';
 
 export class RegisterDTO {
   @IsNotEmpty()

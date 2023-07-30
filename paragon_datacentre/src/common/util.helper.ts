@@ -1,4 +1,4 @@
-import { NFTEnquiryDTO, NFTTokens } from 'src/auth/dto';
+import { NFTEnquiryDTO, NFTTokens } from '../auth/dto';
 
 type MorphResult = {
   table_name: string;

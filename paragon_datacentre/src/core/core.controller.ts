@@ -9,8 +9,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CoreService } from './core.service';
-import { AtGuard } from 'src/common/guards';
-import { NFTEnquiryDTO, NFTTokens } from 'src/auth/dto';
+import { AtGuard } from '../common/guards';
+import { NFTEnquiryDTO, NFTTokens } from '../auth/dto';
 import {
   AverageOwnershipDuration,
   AveragePrice,

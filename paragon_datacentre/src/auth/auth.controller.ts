@@ -4,15 +4,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
-import { Request } from 'express';
-import { AtGuard, RtGuard } from 'src/common/guards';
+import { RtGuard } from '../common/guards';
 import { AuthService } from './auth.service';
 import { RegisterDTO, LoginDTO } from './dto';
-import { Tokens } from 'src/types';
-import { GetCurrentUser, GetCurrentUserId } from 'src/common/decorator';
+import { Tokens } from '../types';
+import { GetCurrentUser, GetCurrentUserId } from '../common/decorator';
 
 @Controller('auth')
 export class AuthController {
