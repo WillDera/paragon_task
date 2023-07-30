@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @default("anonymous")
+  hash      String
+  hashedRt  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model bored_ape_yacht_club_nft_info {
+  info_id                        Int                              @id @default(autoincrement())
+  contract_address               String?                          @db.VarChar(50)
+  token_id                       Int?                             @unique
+  owner_address                  String?                          @db.VarChar(50)
+  metadata_url                   String?                          @db.VarChar(255)
+  external_url                   String?                          @db.VarChar(255)
+  bored_ape_yacht_club_sale_info bored_ape_yacht_club_sale_info[]
+}
+
+model bored_ape_yacht_club_sale_info {
+  sale_id                       Int                            @id @default(autoincrement())
+  contract_address              String?                        @db.VarChar(50)
+  token_id                      Int?
+  transaction_hash              String?                        @db.VarChar(255)
+  timestamp                     DateTime?                      @db.Timestamp(6)
+  exchange_name                 String?                        @db.VarChar(100)
+  contract_version              String?                        @db.VarChar(100)
+  quantity                      Int?
+  eth_price                     Float?                         @db.Real
+  usd_price                     Float?                         @db.Real
+  buyer                         String?                        @db.VarChar(50)
+  seller                        String?                        @db.VarChar(50)
+  royalty_fee                   Int?
+  platform_fee                  Int?
+  bored_ape_yacht_club_nft_info bored_ape_yacht_club_nft_info? @relation(fields: [token_id], references: [token_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model cryptoblots_nft_info {
+  info_id               Int                     @id @default(autoincrement())
+  contract_address      String?                 @db.VarChar(50)
+  token_id              Int?                    @unique
+  owner_address         String?                 @db.VarChar(50)
+  metadata_url          String?                 @db.VarChar(255)
+  external_url          String?                 @db.VarChar(255)
+  cryptoblots_sale_info cryptoblots_sale_info[]
+}
+
+model cryptoblots_sale_info {
+  sale_id              Int                   @id @default(autoincrement())
+  contract_address     String?               @db.VarChar(50)
+  token_id             Int?
+  transaction_hash     String?               @db.VarChar(255)
+  timestamp            DateTime?             @db.Timestamp(6)
+  exchange_name        String?               @db.VarChar(100)
+  contract_version     String?               @db.VarChar(100)
+  quantity             Int?
+  eth_price            Float?                @db.Real
+  usd_price            Float?                @db.Real
+  buyer                String?               @db.VarChar(50)
+  seller               String?               @db.VarChar(50)
+  royalty_fee          Int?
+  platform_fee         Int?
+  cryptoblots_nft_info cryptoblots_nft_info? @relation(fields: [token_id], references: [token_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model cryptopunk_nft_info {
+  info_id              Int                    @id @default(autoincrement())
+  contract_address     String?                @db.VarChar(50)
+  token_id             Int?                   @unique
+  owner_address        String?                @db.VarChar(50)
+  metadata_url         String?                @db.VarChar(255)
+  external_url         String?                @db.VarChar(255)
+  cryptopunk_sale_info cryptopunk_sale_info[]
+}
+
+model cryptopunk_sale_info {
+  sale_id             Int                  @id @default(autoincrement())
+  contract_address    String?              @db.VarChar(50)
+  token_id            Int?
+  transaction_hash    String?              @db.VarChar(255)
+  timestamp           DateTime?            @db.Timestamp(6)
+  exchange_name       String?              @db.VarChar(100)
+  contract_version    String?              @db.VarChar(100)
+  quantity            Int?
+  eth_price           Float?               @db.Real
+  usd_price           Float?               @db.Real
+  buyer               String?              @db.VarChar(50)
+  seller              String?              @db.VarChar(50)
+  royalty_fee         Int?
+  platform_fee        Int?
+  cryptopunk_nft_info cryptopunk_nft_info? @relation(fields: [token_id], references: [token_id], onDelete: Cascade, onUpdate: NoAction)
+}

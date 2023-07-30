@@ -1,0 +1,30 @@
+export type Owner = {
+  message: string;
+  statusCode: number;
+  data: {
+    owner_address: string;
+  };
+};
+
+export type AverageOwnershipDuration = {
+  message: string;
+  statusCode: number;
+  data: {
+    token_id: number;
+    avg_ownership_duration: {
+      days: number;
+      hours: number;
+    };
+  };
+};
+
+export type OwnershipHistoryData = {
+  timestamp: string;
+  owner: string;
+};
+
+export type OwnershipHistory = {
+  message: string;
+  statusCode: number;
+  data: OwnershipHistoryData[];
+};
