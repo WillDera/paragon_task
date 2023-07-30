@@ -33,10 +33,7 @@ export type AverageOwnershipDuration = {
   statusCode: number;
   data: {
     token_id: number;
-    avg_ownership_duration: {
-      days: number;
-      hours: number;
-    };
+    avg_ownership_duration: string;
   };
 };
 

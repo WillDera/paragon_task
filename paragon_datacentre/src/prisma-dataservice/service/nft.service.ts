@@ -165,16 +165,15 @@ export class NFTService {
     const averageDuration =
       averageDurationInMilliseconds / (1000 * 60 * 60 * 24);
 
-    const split = averageDuration.toString().split('.');
-    const remainder = Number('0.' + split[1]);
+    const duration = averageDuration.toString().split('.');
+    const remainder = Number('0.' + duration[1]);
     const remainderToHours = Math.floor(remainder * 24 * 100) / 100;
 
     const data = {
       token_id: dto.token_id,
-      avg_ownership_duration: {
-        days: Number(split[0]),
-        hours: remainderToHours,
-      },
+      avg_ownership_duration: `${Number(
+        duration[0],
+      )} days and ${remainderToHours} hours`,
     };
 
     return SuccessResponse(data);
