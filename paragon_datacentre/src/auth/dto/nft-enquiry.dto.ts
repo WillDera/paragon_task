@@ -36,3 +36,11 @@ export class NFTTokens {
   })
   limit: number;
 }
+
+export class NFTHighestHolder {
+  @IsEthereumAddress()
+  @IsWhitelistedContract({
+    message: 'No data for $value.',
+  })
+  contract_address: string;
+}

@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { NFTEnquiryDTO, NFTTokens } from '../auth/dto';
+import { NFTEnquiryDTO, NFTHighestHolder, NFTTokens } from '../auth/dto';
 import {
   AverageOwnershipDuration,
   AveragePrice,
+  HolderInfo,
   Owner,
   OwnershipHistory,
   PriceHistory,
@@ -34,6 +35,10 @@ export class CoreService {
     const data = { owner_address: nft_data.owner_address };
 
     return SuccessResponse(data);
+  }
+
+  async highestHolder(dto: NFTHighestHolder): Promise<HolderInfo> {
+    return await this.nftService.getHighestHolder(dto);
   }
 
   async averagePrice(dto: NFTEnquiryDTO): Promise<AveragePrice> {

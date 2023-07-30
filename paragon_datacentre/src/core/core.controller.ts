@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CoreService } from './core.service';
 import { AtGuard } from '../common/guards';
-import { NFTEnquiryDTO, NFTTokens } from '../auth/dto';
+import { NFTEnquiryDTO, NFTHighestHolder, NFTTokens } from '../auth/dto';
 import {
   AverageOwnershipDuration,
   AveragePrice,
@@ -18,6 +18,7 @@ import {
   OwnershipHistory,
   PriceHistory,
   TokenIds,
+  HolderInfo,
 } from '../types';
 
 @Controller('core')
@@ -38,6 +39,15 @@ export class CoreController {
   @HttpCode(HttpStatus.OK)
   currentOwner(@Body() dto: NFTEnquiryDTO): Promise<Owner> {
     return this.coreService.currentOwner(dto);
+  }
+
+  @UseGuards(AtGuard)
+  @Get('highest_holder')
+  @HttpCode(HttpStatus.OK)
+  highestHolder(
+    @Query(new ValidationPipe({ transform: true })) dto: NFTHighestHolder,
+  ): Promise<HolderInfo> {
+    return this.coreService.highestHolder(dto);
   }
 
   @UseGuards(AtGuard)

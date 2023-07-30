@@ -3,6 +3,7 @@ import glob
 import json
 import psycopg2
 from datetime import datetime
+from decouple import Config, RepositoryEnv
 
 
 # Function to check if the database exists
@@ -17,10 +18,12 @@ def check_database_exists(host, database, user, password):
         return False
 
 
-host = "localhost"
-database = "paragon_task"
-user = "postgres"
-password = "postgres"
+env = Config(RepositoryEnv(".env"))
+
+host = env.get("host")
+database = env.get("database")
+user = env.get("user")
+password = env.get("password")
 
 """
 Each contract would have its own table, this is to avoid data conflicts

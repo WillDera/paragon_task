@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { bored_ape_yacht_club_sale_info, Prisma } from '@prisma/client';
-import { NFTEnquiryDTO, NFTTokens } from '../../auth/dto';
+import { NFTEnquiryDTO, NFTHighestHolder, NFTTokens } from '../../auth/dto';
 import { morph, morph_info } from '../../common/util.helper';
 import {
   AverageOwnershipDuration,
@@ -12,6 +12,7 @@ import {
   OwnershipHistoryData,
   TokenIds,
   TokenId,
+  HolderInfo,
 } from '../../types';
 import { SuccessResponse } from '../../common/responses.helpers';
 
@@ -55,6 +56,29 @@ export class NFTService {
       token_id: dto.token_id,
       avg_eth_price: avgQuery[0].avg_eth_price || 0,
       avg_usd_price: avgQuery[0].avg_usd_price || 0,
+    };
+
+    return SuccessResponse(data);
+  }
+
+  async getHighestHolder(dto: NFTHighestHolder): Promise<HolderInfo> {
+    const tableName = morph_info(dto);
+
+    if (tableName.table_name === '0')
+      throw new NotFoundException('No Ownership Data Found!');
+
+    const volumeQuery: any = await this.prisma.$queryRaw`
+      SELECT owner_address, COUNT(owner_address) AS volume
+      FROM ${Prisma.raw(tableName.table_name)}
+      GROUP BY owner_address
+      ORDER BY volume DESC
+      LIMIT 1;`;
+
+    console.log(volumeQuery);
+
+    const data = {
+      owner_address: volumeQuery[0].owner_address,
+      number_of_nfts_owned: Number(volumeQuery[0].volume),
     };
 
     return SuccessResponse(data);

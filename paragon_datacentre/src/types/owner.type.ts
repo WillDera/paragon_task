@@ -6,6 +6,15 @@ export type Owner = {
   };
 };
 
+export type HolderInfo = {
+  message: string;
+  statusCode: number;
+  data: {
+    owner_address: string;
+    number_of_nfts_owned: number;
+  };
+};
+
 export type AverageOwnershipDuration = {
   message: string;
   statusCode: number;
