@@ -18,7 +18,8 @@ import {
   OwnershipHistory,
   PriceHistory,
   TokenIds,
-  HolderInfo,
+  HighestHolderAmountInfo,
+  HighestHolderInfo,
 } from '../types';
 
 @Controller('core')
@@ -46,8 +47,17 @@ export class CoreController {
   @HttpCode(HttpStatus.OK)
   highestHolder(
     @Query(new ValidationPipe({ transform: true })) dto: NFTHighestHolder,
-  ): Promise<HolderInfo> {
+  ): Promise<HighestHolderInfo> {
     return this.coreService.highestHolder(dto);
+  }
+
+  @UseGuards(AtGuard)
+  @Get('highest_by_amount_spent')
+  @HttpCode(HttpStatus.OK)
+  highestHolderByAmountSpent(
+    @Query(new ValidationPipe({ transform: true })) dto: NFTHighestHolder,
+  ): Promise<HighestHolderAmountInfo> {
+    return this.coreService.highestHolderByAmountSpent(dto);
   }
 
   @UseGuards(AtGuard)

@@ -3,15 +3,28 @@ export type Owner = {
   statusCode: number;
   data: {
     owner_address: string;
+    token_id: number;
   };
 };
 
-export type HolderInfo = {
+export type HighestHolderInfo = {
   message: string;
   statusCode: number;
   data: {
     owner_address: string;
     number_of_nfts_owned: number;
+  };
+};
+
+export type HighestHolderAmountInfo = {
+  message: string;
+  statusCode: number;
+  data: {
+    owner_address: string;
+    total_spent: {
+      usd_amount: number;
+      eth_amount: number;
+    };
   };
 };
 

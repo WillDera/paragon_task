@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { bored_ape_yacht_club_sale_info, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { NFTEnquiryDTO, NFTHighestHolder, NFTTokens } from '../../auth/dto';
-import { morph, morph_info } from '../../common/util.helper';
+import { morph_info, morph_sale } from '../../common/util.helper';
 import {
   AverageOwnershipDuration,
   AveragePrice,
@@ -12,13 +12,34 @@ import {
   OwnershipHistoryData,
   TokenIds,
   TokenId,
-  HolderInfo,
+  Owner,
+  HighestHolderInfo,
+  HighestHolderAmountInfo,
 } from '../../types';
 import { SuccessResponse } from '../../common/responses.helpers';
 
 @Injectable()
 export class NFTService {
   constructor(private prisma: PrismaService) { }
+
+  async getCurrentOwner(dto: NFTEnquiryDTO): Promise<Owner> {
+    const tableName = morph_info(dto);
+    if (tableName.table_name === '0')
+      throw new NotFoundException('No Token Owner Data Found!');
+
+    const ownerQuery: any = await this.prisma.$queryRaw`
+    SELECT owner_address FROM ${Prisma.raw(
+      tableName.table_name,
+    )} WHERE token_id = ${dto.token_id};
+    `;
+
+    const data = {
+      owner_address: ownerQuery[0].owner_address,
+      token_id: dto.token_id,
+    };
+
+    return SuccessResponse(data);
+  }
 
   async getTokenIds(dto: NFTTokens): Promise<TokenIds> {
     const tableName = morph_info(dto);
@@ -37,7 +58,7 @@ export class NFTService {
   }
 
   async getAveragePrice(dto: NFTEnquiryDTO): Promise<AveragePrice> {
-    const tableName = morph(dto);
+    const tableName = morph_sale(dto);
     if (tableName.table_name === '0')
       throw new NotFoundException('No Price Data Found!');
 
@@ -61,7 +82,7 @@ export class NFTService {
     return SuccessResponse(data);
   }
 
-  async getHighestHolder(dto: NFTHighestHolder): Promise<HolderInfo> {
+  async getHighestHolder(dto: NFTHighestHolder): Promise<HighestHolderInfo> {
     const tableName = morph_info(dto);
 
     if (tableName.table_name === '0')
@@ -82,10 +103,38 @@ export class NFTService {
     return SuccessResponse(data);
   }
 
+  async getHighestHolderByAmountSpent(
+    dto: NFTHighestHolder,
+  ): Promise<HighestHolderAmountInfo> {
+    const tableName = morph_sale(dto);
+
+    if (tableName.table_name === '0')
+      throw new NotFoundException('No Ownership Data Found!');
+
+    const volumeQuery: any = await this.prisma.$queryRaw`
+      SELECT buyer, 
+      SUM(CAST(usd_price AS DECIMAL(10, 2))) AS usd_spent,
+      SUM(CAST(eth_price AS DECIMAL(10, 2))) AS eth_spent
+      FROM ${Prisma.raw(tableName.table_name)}
+      GROUP BY buyer
+      ORDER BY eth_spent DESC
+      LIMIT 1;`;
+
+    const data = {
+      owner_address: volumeQuery[0].buyer,
+      total_spent: {
+        usd_amount: Number(volumeQuery[0].usd_spent),
+        eth_amount: Number(volumeQuery[0].eth_spent),
+      },
+    };
+
+    return SuccessResponse(data);
+  }
+
   async getAverageOwnershipDuration(
     dto: NFTEnquiryDTO,
   ): Promise<AverageOwnershipDuration> {
-    const tableName = morph(dto);
+    const tableName = morph_sale(dto);
 
     if (tableName.table_name === '0')
       throw new NotFoundException('No Ownership History Found!');
@@ -96,7 +145,7 @@ export class NFTService {
       WHERE 
         token_id = ${dto.token_id} 
       ORDER BY timestamp asc;
-      `;
+    `;
 
     if (avgQuery.length < 1)
       throw new NotFoundException(`No Ownership History for ${dto.token_id}`);
@@ -132,18 +181,18 @@ export class NFTService {
   }
 
   async getPriceHistory(dto: NFTEnquiryDTO): Promise<PriceHistory> {
-    const tableName = morph(dto);
+    const tableName = morph_sale(dto);
 
     if (tableName.table_name === '0')
       throw new NotFoundException('No Price Data Found!');
 
     const historyQuery: PriceHistoryData[] = await this.prisma.$queryRaw`
       SELECT timestamp, usd_price, eth_price 
-      FROM ${Prisma.raw(tableName.table_name)} 
-      WHERE 
-        token_id = ${dto.token_id} 
+      FROM ${Prisma.raw(tableName.table_name)}
+    WHERE
+    token_id = ${dto.token_id} 
       ORDER BY timestamp desc;
-      `;
+    `;
 
     if (historyQuery.length < 1)
       throw new NotFoundException(`No Price History for ${dto.token_id}`);
@@ -152,7 +201,7 @@ export class NFTService {
   }
 
   async getOwnershipHistory(dto: NFTEnquiryDTO): Promise<OwnershipHistory> {
-    const tableName = morph(dto);
+    const tableName = morph_sale(dto);
 
     if (tableName.table_name === '0')
       throw new NotFoundException('No Ownership Data Found!');
