@@ -17,7 +17,7 @@
 
 ## Data Extraction and Aggregation
 
-- The sample size were:
+- The sample size were: <br>
   i. First 200 tokens from each collection <br>
   ii. Maximum of 50 transactions (if available) for each token.
 
