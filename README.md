@@ -18,7 +18,7 @@
 ## Data Extraction and Aggregation
 
 - The sample size were:
-  i. First 200 tokens from each collection
+  i. First 200 tokens from each collection <br>
   ii. Maximum of 50 transactions (if available) for each token.
 
 1. The data_extraction.py script handled connecting to the Transpose API, pulling blockchain data for 3 NFT collections and storing them in named json files (they can be found [here](), [here]() and [here](). Data extracted were Sale data, Ownership data and Collection data.
