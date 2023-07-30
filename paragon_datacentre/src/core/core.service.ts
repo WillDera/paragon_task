@@ -9,8 +9,8 @@ import {
   TokenIds,
 } from 'src/types';
 import { SuccessResponse } from 'src/common/responses.helpers';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { NFTService } from 'src/prisma/service/nft.service';
+import { PrismaService } from '../prisma-dataservice/prisma.service';
+import { NFTService } from '../prisma-dataservice/service/nft.service';
 
 @Injectable()
 export class CoreService {
