@@ -74,8 +74,6 @@ export class NFTService {
       ORDER BY volume DESC
       LIMIT 1;`;
 
-    console.log(volumeQuery);
-
     const data = {
       owner_address: volumeQuery[0].owner_address,
       number_of_nfts_owned: Number(volumeQuery[0].volume),

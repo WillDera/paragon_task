@@ -21,5 +21,5 @@
   i. First 200 tokens from each collection <br>
   ii. Maximum of 50 transactions (if available) for each token.
 
-1. The data_extraction.py script handled connecting to the Transpose API, pulling blockchain data for 3 NFT collections and storing them in named json files (they can be found [here](), [here]() and [here](). Data extracted were Sale data, Ownership data and Collection data.
+1. The data_extraction.py script handled connecting to the Transpose API, pulling blockchain data for 3 NFT collections and storing them in named json files (they can be found [here](https://github.com/WillDera/paragon_task/tree/main/nft_owners), [here](https://github.com/WillDera/paragon_task/tree/main/nfts_list) and [here](https://github.com/WillDera/paragon_task/tree/main/sales). Data extracted were Sale data, Ownership data and Collection data.
 2. The data_aggregation.py script handled processing the of the json files created in step 1 and storing them on the database for later use. Only parts of interest from the data were stored on the database.
