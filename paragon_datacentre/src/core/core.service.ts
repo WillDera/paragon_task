@@ -7,7 +7,7 @@ import {
   OwnershipHistory,
   PriceHistory,
   TokenIds,
-} from 'src/types';
+} from '../types';
 import { SuccessResponse } from '../common/responses.helpers';
 import { PrismaService } from '../prisma-dataservice/prisma.service';
 import { NFTService } from '../prisma-dataservice/service/nft.service';

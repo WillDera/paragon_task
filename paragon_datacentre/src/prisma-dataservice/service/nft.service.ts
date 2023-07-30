@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { bored_ape_yacht_club_sale_info, Prisma } from '@prisma/client';
-import { NFTEnquiryDTO, NFTTokens } from 'src/auth/dto';
-import { morph, morph_info } from 'src/common/util.helper';
+import { NFTEnquiryDTO, NFTTokens } from '../../auth/dto';
+import { morph, morph_info } from '../../common/util.helper';
 import {
   AverageOwnershipDuration,
   AveragePrice,
@@ -12,8 +12,8 @@ import {
   OwnershipHistoryData,
   TokenIds,
   TokenId,
-} from 'src/types';
-import { SuccessResponse } from 'src/common/responses.helpers';
+} from '../../types';
+import { SuccessResponse } from '../../common/responses.helpers';
 
 @Injectable()
 export class NFTService {

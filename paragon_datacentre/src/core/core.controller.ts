@@ -18,7 +18,7 @@ import {
   OwnershipHistory,
   PriceHistory,
   TokenIds,
-} from 'src/types';
+} from '../types';
 
 @Controller('core')
 export class CoreController {
